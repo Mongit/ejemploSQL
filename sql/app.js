@@ -25,7 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/sql', function(req, res, next){
+app.use('/sql', routes);
+/*app.use('/sql', function(req, res, next){
   // First you need to create a connection to the db
   var con = mysql.createConnection({
     host: "localhost",
@@ -57,7 +58,7 @@ app.use('/sql', function(req, res, next){
     console.log(err);
     console.log('Last insert ID:', res.insertId);
   });
-*/
+*--/
   con.end(function(err) {
     // The connection is terminated gracefully
     // Ensures all previously enqueued queries are still
@@ -65,6 +66,7 @@ app.use('/sql', function(req, res, next){
   });
 
 });
+*/
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
