@@ -4,7 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mysql = require("mysql");
+var container = require('./src/container');
+var db = container.get('dbConnection');
+db.connect({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "store"
+});
+var clientes = container.get("clientesController");
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -26,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/sql', routes);
+app.use('/clientes/api', clientes.router);
 /*app.use('/sql', function(req, res, next){
   // First you need to create a connection to the db
   var con = mysql.createConnection({
@@ -67,6 +76,7 @@ app.use('/sql', routes);
 
 });
 */
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
