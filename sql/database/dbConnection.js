@@ -1,18 +1,14 @@
-/*var config = require('./db-config');
-module.exports = require('mysql').createConnection(config);
-*/
-
-var DbConnection = (function() {
-    var DbConnection = function(config, mysql) {
-        this.mysqlObj = mysql.module;
-        this.conf = config;
-        this.connection;
+var Conn = (function() {
+    var Conn = function(mysql, config) {
+        this.mysql = mysql.module;
+        this.config = config;
+        this.c = undefined;
     };
-
-    DbConnection.prototype.connect = function () {
-      this.connection = this.mysqlObj.createConnection(this.conf);
-      return this.connection;
-    }
-    return DbConnection;
+  Conn.prototype.connect = function() {
+      var that = this;
+      that.c = that.mysql.createConnection(that.config);
+      return that.c;
+  };
+    return Conn;
 })();
-module.exports = DbConnection;
+module.exports = Conn;
