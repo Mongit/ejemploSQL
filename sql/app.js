@@ -5,13 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var container = require('./src/container');
-var db = container.get('dbConnection');
-db.connect({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "store"
-});
+
+
 var clientes = container.get("clientesController");
 
 var routes = require('./routes/index');
@@ -33,49 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/sql', routes);
 app.use('/clientes/api', clientes.router);
-/*app.use('/sql', function(req, res, next){
-  // First you need to create a connection to the db
-  var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "store"
-  });
-
-  con.connect(function(err){
-    if(err){
-      console.log(err);
-      console.log('Error connecting to Db');
-      return;
-    }
-    console.log('Connection established');
-    res.send({ title: 'sql' });
-  });
-
-  con.query('SELECT * FROM books',function(err,rows){
-    if(err)
-      console.log(err);
-    console.log('Data received from Db:\n');
-    console.log(rows);
-  });
-/*
-  var book = { title: 'Españosl', author: 'sep' };
-  con.query('INSERT INTO books SET ?', book, function(err,res){
-    if(err)
-    console.log(err);
-    console.log('Last insert ID:', res.insertId);
-  });
-*--/
-  con.end(function(err) {
-    // The connection is terminated gracefully
-    // Ensures all previously enqueued queries are still
-    // before sending a COM_QUIT packet to the MySQL server.
-  });
-
-});
-*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
